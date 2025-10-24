@@ -1,13 +1,24 @@
-import { createMemoryHistory, createRouter } from 'vue-router'
-
-import HomeView from '@/views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
-  { path: '/', component: HomeView },
-  // { path: '/', component: HomeView },
+  {
+    path: '/:id?',
+    name: 'image-home',
+    component: () => import('@/views/HomeView.vue'),
+  },
+  {
+    path: '/not-found',
+    name: 'not-found',
+    component: () => import('@/views/NotFoundView.vue'),
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/not-found',
+  },
 ]
 
 export const router = createRouter({
-  history: createMemoryHistory(),
+
+  history: createWebHistory('/vue-image-gallery'),
   routes,
 })
