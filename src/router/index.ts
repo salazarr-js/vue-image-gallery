@@ -18,7 +18,6 @@ const routes = [
 ]
 
 export const router = createRouter({
-
-  history: createWebHistory('/vue-image-gallery'),
+  history: createWebHistory(import.meta.env.VITE_BASE_URL),
   routes,
 })

@@ -4,7 +4,7 @@ import ToggleThemeButton from './ToggleThemeButton.vue';
 </script>
 
 <template>
-  <BaseContainer as="header" class="app-header h-navbar-height flex-center">
+  <BaseContainer as="header" class="app-header relative z-50 h-navbar-height flex-center">
     <nav class="flex gap-4">
 
       <ToggleThemeButton class="ml-auto" />

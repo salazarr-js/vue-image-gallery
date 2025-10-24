@@ -1,30 +1,71 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 // Composables
-import { usePicsumAPI } from '@/composables/usePicsum';
+import { useRoute, useRouter } from 'vue-router';
+import { usePicsumAPI, type PicsumAPIImage } from '@/composables/usePicsum';
 // Components
-import HeroHeader from '@/components/HeroHeader.vue';
 import BaseContainer from '@/components/BaseContainer.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
+import AppDialog from '@/components/AppDialog.vue';
+
+const router = useRouter()
+const route = useRoute()
 
 const picsumAPI = usePicsumAPI()
-const { isFetching, data, error, execute } = picsumAPI.getList({ limit: 100 }, { immediate: false })
+const { isFetching, data, error, execute } = picsumAPI.getList({ limit: 5 }, { immediate: false })
+
+const selectedImage = ref<PicsumAPIImage | null>(null)
+const openDialog = ref(false)
+
+const mappedImages = computed(() => {
+  return data.value?.map(img => ({
+    ...img,
+    alt: `Image by ${img.author} (ID: ${img.id})`
+  })) || null
+})
 
 onMounted(async () => {
-  console.warn('HomeView: mounted')
-
+  console.warn('HomeView:mounted')
   await execute()
-  console.warn({ isFetching, data, error })
+
+  if (!error.value) {
+    const imageDetails = getImageDetailsFromRoute()
+    if (imageDetails) openImageDetails(imageDetails)
+  }
 });
+
+/** */
+function getImageDetailsFromRoute() {
+  const id = route.params.id as string | undefined
+
+  if (id) {
+    const image = data.value?.find(img => img.id === id)
+    if (image) return image
+    else router.push({ name: 'not-found' }) // Back to root if no image found
+  }
+
+  return null
+}
+
+/** */
+function openImageDetails(image: PicsumAPIImage) {
+  console.warn('openImageDetails', image)
+  selectedImage.value = image;
+  openDialog.value = true;
+
+  router.push({ name: 'image-home', params: { id: image.id } })
+}
+
+/** */
+function onDialogClose() {
+  selectedImage.value = null;
+
+  router.push({ name: 'image-home' })
+}
 </script>
 
 <template>
   <div class="home-view">
-    <HeroHeader>
-      <template #title>Vue Image Gallery</template>
-      <template #text>A simple and responsive image gallery built with Vue 3 and the Picsum API</template>
-    </HeroHeader>
-
     <BaseContainer class="pt-16 pb-8">
       <template v-if="error">
         <p class="text-red-500"></p>
@@ -41,10 +82,25 @@ onMounted(async () => {
         </div>
       </template>
 
-      <ImageGallery v-else :images="data" :skeleton="isFetching"/>
+      <ImageGallery v-else :images="mappedImages" :skeleton="isFetching" @image-open="openImageDetails"/>
 
       <!-- TODO: Scroll foreground -->
     </BaseContainer>
+
+    <AppDialog v-model="openDialog" @close="onDialogClose" >
+      <div>
+        <img
+          :src="selectedImage?.download_url"
+
+          loading="lazy"
+          decoding="async"
+          fetchpriority="low"
+          class="h-25  object-cover rounded-lg"
+        />
+
+        <p>{{ selectedImage?.author }}</p>
+      </div>
+    </AppDialog>
   </div>
 </template>
 

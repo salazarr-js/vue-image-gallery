@@ -10,12 +10,13 @@ export type PicsumAPIListParams = {
 
 /** */
 export type PicsumAPIImage = {
-  id: number
+  id: string
   author: string,
   width: number,
   height: number,
   url: string,
   download_url: string
+  alt: string
 }
 
 /** Picsum Photos API composable. */
