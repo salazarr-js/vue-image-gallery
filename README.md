@@ -18,7 +18,8 @@ pnpm run lint # Lint with [ESLint](https://eslint.org/)
 - [x] `pnpm` as package manager
 - [x] Github Pages auto deploy through Github Actions
 - [x] Lazy loaded routes
-- [ ] Virtual Scroll + Lazy images
+- [ ] Virtual Scroll
+- [ ] Lazy images
 - [x] Light/Dark Themes
 - [x] Loading Skeletons
 - [x] Routes animation
@@ -28,6 +29,6 @@ pnpm run lint # Lint with [ESLint](https://eslint.org/)
 ## TODOs
 
 - [ ] Dialog focus trap
-- [ ] Better Lazy loaded image component
+- [ ] Better lazy-loaded image component
 - [ ] Icon component
 - [ ] Better image grid keyboard support, move selected image with arrow keys
