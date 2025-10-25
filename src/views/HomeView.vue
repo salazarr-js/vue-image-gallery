@@ -12,7 +12,7 @@ const router = useRouter()
 const route = useRoute()
 
 const picsumAPI = usePicsumAPI()
-const { isFetching, data, error, execute } = picsumAPI.getList({ limit: 5 }, { immediate: false })
+const { isFetching, data, error, execute } = picsumAPI.getList({ limit: 100 }, { immediate: false })
 
 const selectedImage = ref<PicsumAPIImage | null>(null)
 const openDialog = ref(false)
@@ -20,8 +20,9 @@ const openDialog = ref(false)
 const mappedImages = computed(() => {
   return data.value?.map(img => ({
     ...img,
-    alt: `Image by ${img.author} (ID: ${img.id})`
-  })) || null
+
+    alt: `Image by ${img.author} (ID: ${img.id})`,
+  })) || []
 })
 
 onMounted(async () => {
@@ -97,8 +98,6 @@ function onDialogClose() {
           fetchpriority="low"
           class="h-25  object-cover rounded-lg"
         />
-
-        <p>{{ selectedImage?.author }}</p>
       </div>
     </AppDialog>
   </div>
