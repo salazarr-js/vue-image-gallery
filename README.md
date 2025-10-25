@@ -5,34 +5,17 @@ A simple and responsive image gallery built with Vue 3 and the Picsum API
 ## Project Setup
 
 ```sh
-npm install
-```
+pnpm install
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+pnpm run dev # Compile and Hot-Reload for Development
+pnpm run build # Type-Check, Compile and Minify for Production
+pnpm run test:unit # Run Unit Tests with [Vitest](https://vitest.dev/)
+pnpm run lint # Lint with [ESLint](https://eslint.org/)
 ```
 
 ## Features 
+
+- [x] `pnpm` as package manager
 - [x] Github Pages auto deploy through Github Actions
 - [x] Lazy loaded routes
 - [ ] Virtual Scroll + Lazy images
@@ -44,7 +27,7 @@ npm run lint
 
 ## TODOs
 
-[ ] Dialog focus trap
-[ ] Better Lazy loaded image component
-[ ] Icon component
-[ ] Better image grid keyboard support, move selected image with arrow keys
+- [ ] Dialog focus trap
+- [ ] Better Lazy loaded image component
+- [ ] Icon component
+- [ ] Better image grid keyboard support, move selected image with arrow keys
