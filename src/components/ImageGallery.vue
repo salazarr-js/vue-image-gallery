@@ -43,7 +43,7 @@ const emit = defineEmits<{
       <LazyImage
         :src="image.thumbnail!"
         :alt="image.alt"
-        :priority="index < 20 ? 'hight' : 'auto'"
+        :priority="index < 20 ? 'high' : 'low'"
 
         class="w-full aspect-[4/3] object-cover rounded-lg hover:shadow-xl hover:scale-105 hover:z-10 transition-all"
       />

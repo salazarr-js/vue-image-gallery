@@ -1,21 +1,26 @@
 <script setup lang="ts">
-import { onMounted, ref, type PropType } from 'vue';
+import { onMounted, ref, watch, type PropType } from 'vue';
 import LoadingSkeleton from '@/components/LoadingSkeleton.vue';
 
 const { alt, src, skeleton } = defineProps({
   alt: String,
   src: String,
   skeleton: Boolean,
-
   priority: {
-    type: String as PropType<'hight' | 'auto' | 'low'>,
+    type: String as PropType<'high' | 'auto' | 'low'>,
     default: () => 'auto',
-  }
+  },
 })
 
 const loaded = ref(false)
 
 onMounted(() => {})
+
+watch(() => src, (value) => {
+  if (!value) {
+    loaded.value = false
+  }
+})
 
 function onImgLoaded() {
   loaded.value = true
