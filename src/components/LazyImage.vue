@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref, useTemplateRef, type PropType } from 'vue';
-import LoadingSkeleton from './LoadingSkeleton.vue';
+import { onMounted, ref, type PropType } from 'vue';
+import LoadingSkeleton from '@/components/LoadingSkeleton.vue';
 
 const { alt, src, skeleton } = defineProps({
   alt: String,
@@ -14,7 +14,6 @@ const { alt, src, skeleton } = defineProps({
 })
 
 const loaded = ref(false)
-const imgRef = useTemplateRef<HTMLImageElement>('img-ref')
 
 onMounted(() => {})
 
