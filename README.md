@@ -16,7 +16,7 @@ pnpm run lint      # Lint with [ESLint](https://eslint.org/)
 ## Features 
 
 - [x] `pnpm` as package manager
-- [x] Github Pages auto deploy through Github Actions (~40s)
+- [x] Github Pages auto deploy through Github Actions (~35s)
 - [x] Lazy loaded routes
 - [x] Scalable reactive custom fetch API
 - [ ] Virtual Scroll
@@ -35,8 +35,8 @@ pnpm run lint      # Lint with [ESLint](https://eslint.org/)
 
 - To avoid unnecessary **Cumulative Layout Shift `CLS`**
   - App is mounted after router `isReady`
-  - `Image Gallery` grid component pre-renders placeholder while fetching
-  - `LazyImage` component 
+  - `Image Gallery` grid component pre-renders same number of images while fetching
+  - `LazyImage` component render a placeholder wile loading
 
 ## TODOs
 
@@ -46,6 +46,7 @@ pnpm run lint      # Lint with [ESLint](https://eslint.org/)
 - [ ] Better image grid keyboard support, move selected image with arrow keys
 - [ ] Image responsive `srcset` and `size`
 - [ ] Dialog using [Teleport](https://vuejs.org/guide/built-ins/teleport)
+- [ ] Prev/Next Image on detail Dialog
 - [ ] More tests
 
 ## Resources
