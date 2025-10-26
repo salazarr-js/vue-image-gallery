@@ -7,26 +7,22 @@ import { usePicsumAPI, type PicsumAPIImage } from '@/composables/usePicsum';
 import BaseContainer from '@/components/BaseContainer.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import AppDialog from '@/components/AppDialog.vue';
+import LazyImage from '@/components/LazyImage.vue';
 
 const router = useRouter()
 const route = useRoute()
-
 const picsumAPI = usePicsumAPI()
-const { isFetching, data, error, execute } = picsumAPI.getList({ limit: 100 }, { immediate: false })
 
+const fetchParams = ref({ limit: 100 })
 const selectedImage = ref<PicsumAPIImage | null>(null)
 const openDialog = ref(false)
 
-const mappedImages = computed(() => {
-  return data.value?.map(img => ({
-    ...img,
+const images = computed(() => data.value?.length ? data.value: [])
 
-    alt: `Image by ${img.author} (ID: ${img.id})`,
-  })) || []
-})
+/** */
+const { isFetching, data, error, execute } = picsumAPI.getList(fetchParams, { immediate: false })
 
 onMounted(async () => {
-  console.warn('HomeView:mounted')
   await execute()
 
   if (!error.value) {
@@ -50,7 +46,6 @@ function getImageDetailsFromRoute() {
 
 /** */
 function openImageDetails(image: PicsumAPIImage) {
-  console.warn('openImageDetails', image)
   selectedImage.value = image;
   openDialog.value = true;
 
@@ -67,7 +62,7 @@ function onDialogClose() {
 
 <template>
   <div class="home-view">
-    <BaseContainer class="pt-16 pb-8">
+    <BaseContainer class="pt-16 pb-12">
       <template v-if="error">
         <p class="text-red-500"></p>
 
@@ -83,21 +78,33 @@ function onDialogClose() {
         </div>
       </template>
 
-      <ImageGallery v-else :images="mappedImages" :skeleton="isFetching" @image-open="openImageDetails"/>
+      <ImageGallery
+        v-else
+        :images
+        :count="fetchParams.limit"
+        :skeleton="isFetching"
+        @image-open="openImageDetails"
+      />
 
       <!-- TODO: Scroll foreground -->
     </BaseContainer>
 
     <AppDialog v-model="openDialog" @close="onDialogClose" >
       <div>
-        <img
-          :src="selectedImage?.download_url"
-
-          loading="lazy"
-          decoding="async"
-          fetchpriority="low"
-          class="h-25  object-cover rounded-lg"
+        <LazyImage
+          class="h-full w-full aspect-[4/3] "
+          :alt="selectedImage?.alt"
+          :src="selectedImage?.download_url!"
+          :class="[`aspect-[${selectedImage?.width}${selectedImage?.height}]`]"
         />
+
+        <a
+          target="_blank"
+          class="absolute z-10 bottom-0 right-0 px-8 py-4 text-xl text-white bg-gray-900/50 rounded-tl-2xl hover:bg-gray-900 transition-all font-medium duration-300"
+          :href="selectedImage?.url!"
+        >
+          {{ selectedImage?.author }}
+        </a>
       </div>
     </AppDialog>
   </div>

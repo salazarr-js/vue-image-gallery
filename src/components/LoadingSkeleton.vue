@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="skeleton flex-center text-base-content/25 rounded-lg text-5xl">
+  <div class="skeleton flex-center text-base-content/25 text-5xl">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"

@@ -7,6 +7,6 @@ import '@/assets/styles/main.css'
 const app = createApp(App)
 
 app.use(router)
-// await router.isReady() // TODO: initial animations after route is ready (Doesn't work properly)
+await router.isReady()
 
 app.mount('#app')

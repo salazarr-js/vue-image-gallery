@@ -14,7 +14,7 @@
 /* VUE TRANSITIONS */
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease;
 }
 
 .fade-enter-from,
@@ -40,10 +40,10 @@
 }
 
 .swap-enter-from {
-  transform: scale(.5) rotateZ(90deg);
   opacity: 0;
+  transform: scale(.5) rotateZ(90deg);
 }
 .swap-leave-to {
-  transform: scale(.5) rotateZ(-90deg);
   opacity: 0;
+  transform: scale(.5) rotateZ(-90deg);
 }

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted, useTemplateRef, watch } from 'vue';
-import BaseContainer from './BaseContainer.vue';
 
 const openDialog = defineModel<boolean>()
 const emits = defineEmits<{
@@ -9,57 +8,102 @@ const emits = defineEmits<{
 
 const dialogRef = useTemplateRef('dialog-ref');
 
-watch(openDialog, (newVal) => {
-  console.warn('AppDialog:openDialog changed', newVal);
+watch(openDialog, (value) => toggleDialog(value!))
 
-  if (newVal) {
+onMounted(() => {})
+
+/** */
+function toggleDialog(open: boolean) {
+  if (open) {
     dialogRef.value?.showModal();
+    document.body.classList.add('overflow-hidden')
   } else {
     dialogRef.value?.close();
+
+    // Let animation finish
+    setTimeout(() => {
+      document.body.classList.remove('overflow-hidden')
+      emits('close')
+    }, 300);
   }
-})
+}
 
-onMounted(() => {
-  console.warn('AppDialog:mounted', openDialog.value);
-
-  /** */
-  dialogRef.value?.addEventListener('close', () => {
-    console.warn('Dialog closed');
-    openDialog.value = false;
-
-    emits('close');
-  });
-})
-
+/** */
+function onDialogClick(ev: PointerEvent) {
+  const target = ev.target as HTMLElement
+   if (target.nodeName === 'DIALOG') dialogRef.value?.close()
+}
 </script>
 
 <template>
-  <h1>{{ openDialog }}</h1>
+  <dialog
+    ref="dialog-ref"
+    modal-mode="mega"
+    class="app-dialog max-w-6xl rounded-2xl shadow-xl shadow-gray-800 backdrop:bg-gray-800/50"
+    @click="onDialogClick"
+    @close="openDialog= false"
+   >
+    <div class="absolute top-4 right-4 z-40">
+      <button class="btn btn-neutral btn-circle transition-all" @click="dialogRef?.close()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
 
-  <dialog id="app-dialog" ref="dialog-ref" class="app-dialog" >
-    <div class="dialog-backlog"></div>
-
-    <BaseContainer>
-      <slot></slot>
-
-      <button @click="dialogRef?.close()">Close Dialog</button>
-    </BaseContainer>
+    <slot></slot>
   </dialog>
 </template>
 
 <style scoped>
-.app-dialog {
+dialog.app-dialog {
+  inset: 0;
+  width: 100%;
+  margin: auto;
+  border: 0;
+  padding: 0;
+  overflow: hidden;
   position: fixed;
-  top:50%;
-  height: 50%;
-  width: 100vw;
-  z-index: 9999;
+  background-color: transparent;
 
-  /* background-color: coral; */
+  opacity: 0;
+  transform: translateY(3rem) scale(.75);
 
-}
+  transition: opacity .3s ease-in-out,
+    transform .3s ease-in-out,
+    overlay .3s ease-in-out allow-discrete,
+    display .3s ease-in-out allow-discrete;
 
-dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
+  /* &:not([open]) { } */
+
+  &[open]{
+    opacity: 1;
+    transform: translateY(0);
+
+    @starting-style {
+      opacity: 0;
+      transform: translateY(3rem) scale(.75);
+    }
+
+    &::backdrop {
+      opacity: 1;
+      backdrop-filter: blur(10px);
+
+      @starting-style {
+        opacity: 0;
+        backdrop-filter: blur(0);
+      }
+    }
+  }
+
+  &::backdrop {
+    opacity: 0;
+    backdrop-filter: blur(0);
+
+    transition: opacity .3s ease-in-out,
+      backdrop-filter .3s ease-in-out,
+      overlay .3s ease-in-out allow-discrete,
+      display .3s ease-in-out allow-discrete;
+  }
 }
 </style>

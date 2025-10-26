@@ -16,9 +16,9 @@ import AppFooter from '@/components/AppFooter.vue'
 
     <div class="relative z-10">
       <router-view v-slot="{ Component }">
-        <transition name="fade-up">
+        <Transition name="fade-up" appear>
           <component :is="Component" />
-        </transition>
+        </Transition>
       </router-view>
     </div>
   </main>
