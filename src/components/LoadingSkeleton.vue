@@ -12,6 +12,8 @@
       stroke="currentColor"
       width="1em"
       height="1em"
+      aria-hidden="true"
+      focusable="false"
     >
       <path
         stroke-linecap="round"

@@ -48,6 +48,8 @@ pnpm run lint      # Lint with [ESLint](https://eslint.org/)
 - [ ] Dialog using [Teleport](https://vuejs.org/guide/built-ins/teleport)
 - [ ] Prev/Next Image on detail Dialog
 - [ ] More tests
+- [ ] Cache via Service Worker (PWA)
+- [ ] Critical styles
 
 ## Resources
 
