@@ -1,6 +1,6 @@
-# Vue Image Gallery 
+# 🖼️ Vue Image Gallery 
 
-🖼️ A simple and responsive image gallery built with Vue 3 and the Picsum API
+A simple and responsive image gallery built with Vue 3 and the Picsum API
 
 ## Project Setup
 
