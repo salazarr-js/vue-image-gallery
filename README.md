@@ -50,6 +50,8 @@ pnpm run lint      # Lint with [ESLint](https://eslint.org/)
 - [ ] More tests
 - [ ] Cache via Service Worker (PWA)
 - [ ] Critical styles
+- [ ] Modal View transition animation
+  - https://web.dev/learn/css/view-transitions-spas
 
 ## Resources
 
